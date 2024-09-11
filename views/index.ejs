@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find An anime</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles/main.css">
+</head>
+<body>
+
+    <div class="container mb-5" style="background-color: rgba(245, 245, 220, 0.63); border-radius: 15px; ">
+        <header class="d-flex justify-content-center py-3">
+          <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="/anime_list" class="nav-link">List</a></li>
+          </ul>
+        </header>
+      </div>
+
+
+
+    <div class=" form d-flex justify-content-center flex-column">
+    <button class="btn btn-primary " id="toggleButton" >Show form to search by params</button>
+    <form style="display: none;" id="form" method="POST">
+        <!-- Heading -->
+        <h4 class="text-center">Search for a random anime by categories</h4>
+    
+        <!-- Form row for type and genre -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="type">Anime Type:</label>
+                <select name="type" class="form-select">
+                    <option value="" data-display="Select"></option>
+                    <option value="tv">TV</option>
+                    <option value="movie">Movie</option>
+                    <option value="ova">OVA</option>
+                    <option value="special">Special</option>
+                    <option value="tv_special">TV Special</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="genres">Anime Genre:</label>
+                <select name="genres" class="form-select">
+                    <option value="" data-display="Select"></option>
+                    <option value="1">Action</option>
+                    <option value="2">Adventure</option>
+                    <option value="3">Racing</option>
+                    <option value="4">Comedy</option>
+                    <option value="5">Avante Garde</option>
+                    <option value="6">Demons</option>
+                    <option value="7">Mystery</option>
+                    <option value="8">Drama</option>
+                    <option value="9">Ecchi</option>
+                    <option value="10">Fantasy</option>
+                    <option value="11">Game</option>
+                    <option value="12">Hentai</option>
+                    <option value="13">Historical</option>
+                    <option value="14">Horror</option>
+                    <option value="15">Kids</option>
+                    <option value="17">Martial Arts</option>
+                    <option value="18">Mecha</option>
+                    <option value="19">Music</option>
+                    <option value="20">Parody</option>
+                    <option value="21">Samurai</option>
+                    <option value="22">Romance</option>
+                    <option value="23">School</option>
+                    <option value="24">Sci Fi</option>
+                    <option value="25">Shoujo</option>
+                    <option value="26">Girls Love</option>
+                    <option value="27">Shounen</option>
+                    <option value="28">Boys Love</option>
+                    <option value="29">Space</option>
+                    <option value="30">Sports</option>
+                    <option value="31">Super Power</option>
+                    <option value="32">Vampire</option>
+                    <option value="35">Harem</option>
+                    <option value="36">Slice Of Life</option>
+                    <option value="37">Supernatural</option>
+                    <option value="38">Military</option>
+                    <option value="39">Police</option>
+                    <option value="40">Psychological</option>
+                    <option value="41">Suspense</option>
+                    <option value="42">Seinen</option>
+                    <option value="43">Josei</option>
+                    <option value="44">Gender Bender</option>
+                    <option value="45">Suspense</option>
+                    <option value="46">Award Winning</option>
+                    <option value="47">Gourmet</option>
+                    <option value="48">Work Life</option>
+                    <option value="49">Erotica</option>
+                </select>
+            </div>
+        </div>
+    
+        <!-- Form row for status and min score -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="status">Anime Status:</label>
+                <select name="status" class="form-select">
+                    <option value="" data-display="Select"></option>
+                    <option value="airing">airing</option>
+                    <option value="complete">complete</option>
+                    <option value="upcoming">upcoming</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="min_score">Anime Min Score (0-10):</label>
+                <input type="number" name="min_score" class="form-input" placeholder="" min="0" max="10">
+            </div>
+        </div>
+    
+        <!-- Search by title -->
+        <div class="form-group">
+            <label for="q">Search by title:</label>
+            <input type="text" name="q" class="form-input" placeholder="">
+        </div>
+    
+        <button type="submit" class="form-submit">Go</button>
+    </form>
+    </div>
+    <script>
+        // JavaScript to toggle the form
+        const toggleButton = document.getElementById('toggleButton');
+        const myForm = document.getElementById('form');
+
+        toggleButton.addEventListener('click', () => {
+            if (myForm.style.display === 'none') {
+                myForm.style.display = 'block'; // Show the form
+                toggleButton.textContent = 'Hide Form'; // Change button text
+            } else {
+                myForm.style.display = 'none'; // Hide the form
+                toggleButton.textContent = 'Show form to search by params'; // Change button text
+            }
+        });
+    </script>
+
+      <!-- PAGE START -->
+      <div class="container container-edit">
+        <div class="d-flex justify-content-center">
+          <% if (locals.data) { %>
+            <div class="anime-details text-center pt-1">
+              <h3 class="anime-title mt-3"><%= data.title %>  <% if (data.title_synonyms != ""){ %></br><span style="color: #1881e4"> <%= data.title_synonyms %> </span> <%}%> </h3>
+              <h4 class="anime-title pb-1" style="color: red;"><%= data.title_japanese %></h4>
+              <p class="pt-5 pb-0">click on the image to add to the watch list</p>
+              <h3>↓</h3>
+      
+              <div class="anime-image">
+                <form id="addToList" action="/add-to-list" method="POST">
+                    <input type="hidden" name="id" value="<%= data.id %>">
+                    <input type="hidden" name="title" value="<%= data.title %>">
+                    <input type="hidden" name="img" value="<%= data.image %>">
+                    <input type="hidden" name="dis" value="<%= data.description %>">
+                    <button type="submit" style="border: none; background: none;">
+                      <img src="<%= data.image %>" alt="<%= data.title %>" class="img-fluid rounded shadow">
+                    </button>
+                  </form>
+              </div>
+              <script>
+                document.getElementById('addToList').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent default form submission
+                
+                    const formData = new FormData(this);
+                    let text_script = document.getElementById("listAdd");
+                    fetch('/add-to-list', {
+                        method: 'POST',
+                        body: new URLSearchParams(formData).toString(),
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json(); // Parse JSON for successful responses
+                        } else {
+                            return response.text().then(text => { throw new Error(text); });
+                        }
+                    })
+                    .then(data => {
+                        text_script.textContent = data.message;
+                        text_script.style.color = "blue"
+                    })
+                    .catch(error => {
+                        text_script.textContent = "error accoured , could not add to list";
+                        text_script.style.color = "red" // Alert error message from the server
+                    });
+                });
+                </script>
+                <h4 class="pt-4" id="listAdd"></h4>
+              <h6 class="anime-description pt-5 px-5"><%= data.description %></h6>
+
+              <div class="anime-info m-10">
+                <p><strong>Type:</strong> <%= data.type %></p>
+                <% if (data.status){ %><p><strong>Status:</strong> <%= data.status %></p><% } %>
+                <% if (data.score){ %><p><strong>Score:</strong> <%= data.score %> | voted by <%= data.scored_by %> people</p><% } %>
+              </div>
+      
+              <% if (locals.genres) { %>
+                <div class="anime-genres">
+                  <strong>Genres:</strong>
+                  <ul class="list-inline ul-e">
+                    <% if (locals.genres.genres) { %>
+                    <% genres.genres.forEach(function(genre) { %>
+                      <li class="badge badge-pill badge-primary mt-3 pb-0">
+                        <h6><%= genre.name %></h6>
+                      </li>
+                    <% }); %>
+                    <% } %>
+                    <% if (locals.genres.themes) { %>
+                    <% genres.themes.forEach(function(genre) { %>
+                        <li class="badge badge-pill badge-primary mt-3 pb-0" style="background-color: #005bc2;">
+                          <h6><%= genre.name %></h6>
+                        </li>
+                      <% }); %>
+                      <% } %>
+                      <% if (locals.genres.demographics) { %>
+                      <% genres.demographics.forEach(function(genre) { %>
+                        <li class="badge badge-pill badge-primary mt-3 pb-0" style="background-color: #c20051;">
+                          <h6><%= genre.name %></h6>
+                        </li>
+                      <% }); %>
+                      <% } %>
+                  </ul>
+                </div>
+              <% } %>
+            </div>
+          <% } else { %>
+            <div class="alert alert-danger text-center">
+              <%= locals.error %>
+            </div>
+          <% } %>
+        </div>
+      </div>
+      
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
