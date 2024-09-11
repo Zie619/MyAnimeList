@@ -36,16 +36,20 @@ This project is designed as a practice exercise for working with APIs. It provid
 
    ```bash
    git clone git clone https://github.com/Zie619/MyAnimeList.git
+   
+   ```
+2. **Navigate to the Project Directory**
+
+   ```bash
    cd MyAnimeList
    ```
-
-2. **Install Dependencies**
+3. **Install Dependencies**
 
    ```bash
    npm install
    ```
 
-3. **Start the Server**
+4. **Start the Server**
 
    ```bash
    npm start
