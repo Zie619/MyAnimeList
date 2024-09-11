@@ -92,7 +92,6 @@ app.get("/anime_list", async (req, res) => {
 
       const liked_animes = JSON.parse(data);
       console.log("------------------------------")
-      console.log(liked_animes)
       
       if (!liked_animes) {
           return res.status(404).send('Post not found.');
@@ -185,7 +184,9 @@ app.post("/add-to-list", async (req, res) => {
               // Parse the JSON data
               anime_list = JSON.parse(data);
           } catch (parseError) {
-              return res.status(500).send('Error parsing anime_list file.');
+              return res.status(500).render('index.ejs', {
+                error: 'An error occurred while processing your request. Please try again later.'
+              });
           }
       }
   
@@ -204,7 +205,9 @@ app.post("/add-to-list", async (req, res) => {
       // Write the updated data back to the file
       fs.writeFile(postsFilePath, JSON.stringify(anime_list, null, 2), (err) => {
           if (err) {
-              return res.status(500).send('Error writing anime_list file.');
+              return res.status(500).render('index.ejs', {
+                error: 'An error occurred while processing your request. Please try again later.'
+              });
           }
             res.json({ message: message });
       });
@@ -216,8 +219,47 @@ app.post("/add-to-list", async (req, res) => {
   });
 
 
-
-
+app.post('/delete', (req, res) => {
+    const animeId = req.body.id;
+    const postsFilePath = path.join(__dirname, 'views','anime_list.json');
+    fs.readFile(postsFilePath, 'utf-8', (err, data) => {
+      if (err) {
+          console.error('Failed to read posts.json:', err);
+          return res.status(500).render('index.ejs', {
+            error: 'An error occurred while processing your request. Please try again later.'
+          });
+      }
+      let liked_animes;
+      
+      try {
+        liked_animes = JSON.parse(data);
+      } catch (parseErr) {
+          console.error('Failed to parse anime_list.json:', parseErr);
+          return res.status(500).render('index.ejs', {
+            error: 'An error occurred while processing your request. Please try again later.'
+          });
+      }
+    if (!animeId || !liked_animes[animeId]) {
+      return res.status(400).send('Invalid anime ID.');
+    }
+    try {
+      delete liked_animes[animeId]; // Remove the anime with the given ID from the list
+      fs.writeFile(postsFilePath, JSON.stringify(liked_animes, null, 2), (err) => {
+        if (err) {
+            console.error('Failed to save the new post:', err);
+            return res.status(500).send('Failed to save the new post');
+        }
+        res.redirect('/anime_list'); // Redirect back to the anime list
+      });
+      
+    } catch (error) {
+      console.error('Error deleting from list:', error);
+      res.status(500).render('index.ejs', {
+        error: 'An error occurred while processing your request. Please try again later.'
+      });
+    }
+    });
+  });
 
 
 
@@ -233,7 +275,6 @@ app.post("/show-from-list", async (req, res) => {
 
       // TITLES OF ANIME:
       
-      console.log(result.data.data)
       var [data , genres] = searchForAnime(result.data.data);
       res.render("index.ejs" , { data: data ,genres: genres});
     } catch (error) {

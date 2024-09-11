@@ -41,9 +41,15 @@
                     <img src="<%= liked_animes[key].img %>" alt="<%= liked_animes[key].title %>">
                   </button>
                 </form>
+                <div>
+                <form action="/delete" method="post">
+                <input type="hidden" name="id" value="<%= key %>">
+                <button type="submit" class="form-submit " style="background-color: red; border-color: brown;">Delete from list</button>
+              </form></div>
               </div>
             <% } %>
           <% }}; %>
+
       </div>
       <div class="swiper-button-next"></div>
       <div class="swiper-button-prev"></div>
