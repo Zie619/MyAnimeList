@@ -8,6 +8,7 @@ Here's the updated `README.md` with a section about practicing APIs:
 
 The Anime List Project is a web application designed to practice working with APIs. It displays a list of anime, each with an image and title. Users can interact with the list by clicking on the images, which sends the corresponding anime ID to the server for further processing. The project uses Express.js for server-side logic and EJS for rendering dynamic content.
 
+diclaimer : Api used for this project is Jikan : https://github.com/jikan-me/jikan
 ## Features
 
 - Displays a list of anime with images and titles.
