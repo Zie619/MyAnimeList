@@ -35,8 +35,8 @@ This project is designed as a practice exercise for working with APIs. It provid
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/yourusername/anime-list-project.git
-   cd anime-list-project
+   git clone git clone https://github.com/Zie619/MyAnimeList.git
+   cd MyAnimeList
    ```
 
 2. **Install Dependencies**
@@ -55,7 +55,7 @@ This project is designed as a practice exercise for working with APIs. It provid
 
 ## Usage
 
-1. Navigate to `http://localhost:3000/anime` in your web browser.
+1. Navigate to `http://localhost:3000` in your web browser.
 2. View the list of anime.
 3. Click on an anime image to send its ID to the server.
 
